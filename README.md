@@ -1,6 +1,7 @@
 # SpotifyAPI
 
 http://al3x3.online/static/index.html
+
 Este proyecto interactúa con la API de Spotify y proporciona una interfaz web simple en la cual pueden recomendarte muscia y se añade a tu cola de reproduccion, ademas muetra en tiempo real que cancion estas escuchando en ese momento.
 
 ## Contenido
