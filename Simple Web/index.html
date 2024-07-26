@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recomiéndame una canción</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    #progress-bar-container {
+      width: 100%;
+      background-color: #eee;
+      height: 20px;
+      margin-top: 10px;
+    }
+    #progress-bar {
+      height: 100%;
+      background-color: #76c7c0;
+      width: 0%;
+    }
+    .song img {
+      width: 50px;
+      height: 50px; 
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="content">
+        <h1>Recomiéndame una canción</h1>
+        <form class="song-form">
+          <input type="text" id="song-input" placeholder="Escribe el nombre de una canción" />
+          <button type="submit">Agregar</button>
+        </form>
+        <div id="track-status"></div>
+        <div id="track-info">
+       
+          <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+          </div>
+        </div>
+        <div id="search-results"></div>
+      </div>
+    </div>
+    <footer>
+      <p>Todos los derechos reservados Alexis Castañeda</p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

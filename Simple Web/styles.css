@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #38a169, #276749);
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .content {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .song-form {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .song-form input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+  }
+  
+  .song-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .song-form input:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .song-form button {
+    padding: 10px 20px;
+    background: white;
+    color: #276749;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .song-form button:hover {
+    background: #e2e8f0;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.1); 
+  }
+  
+  footer p {
+    font-size: 0.875em;
+    margin: 0;
+  }
+  
