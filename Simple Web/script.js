@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchResults = document.querySelector("#search-results");
   const trackStatus = document.querySelector("#track-status");
   const trackInfo = document.querySelector("#track-info");
+  var reproduciendo = false;
 
-  const API_BASE_URL = "http://al3x3.online:3001/spotify";
+  const API_BASE_URL = "https://al3x3.online/spotify";
 
   // Función para mostrar la canción actual
   async function loadCurrentTrack() {
@@ -15,23 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.name) {
         trackStatus.textContent = `Actualmente escuchando: ${data.name}`;
         trackInfo.innerHTML = `
-          <img src="${data.image.url}" alt="${data.name}" width="100" /> 
+          <img src="${data.image.url}" alt="${data.name}" width="100" /> <!-- Tamaño reducido para evitar borrosidad -->
           <p>Artista: ${data.artista}</p>
         `;
+
+        
         const progressBar = document.createElement("progress");
         progressBar.value = data.progress / data.duration;
         progressBar.max = 1;
         trackInfo.appendChild(progressBar);
-
+        reproduciendo = true;
         setInterval(async () => {
           
           const updatedData = await fetch(`${API_BASE_URL}/current-track`).then(res => res.json());
           progressBar.value = updatedData.progress / updatedData.duration;
-          if(updatedData.progress<1000)
-             setTimeout(() => location.reload(), 1000);
+          if(updatedData.progress+2000>updatedData.duration)
+             setTimeout(() => location.reload(), 2000);
         }, 1000);
+
       } else {
         trackStatus.textContent = "En este momento no estoy escuchando nada, puedes recomendarme musica por IG: Al3x.jar :)";
+         reproduciendo=false;
         trackInfo.innerHTML = "";
       }
     } catch (error) {
@@ -40,12 +45,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
   async function searchSongs(query) {
-    const forbiddenWords = [ "Aqui puedes poner palabras prohibidas"];
+    const forbiddenWords = ["xxx", "gemidos", "porno", "grito", "screamer", "gemido"];
     const lowerCaseQuery = query.toLowerCase();
+     if (!reproduciendo) {
+      alert("Solo puedes recomendar mientras estoy escuchando musica :(");
+      setTimeout(() => location.reload(), 200);
+      return;
+    }
+
     if (forbiddenWords.some(word => lowerCaseQuery.includes(word))) {
       alert("No pongas eso :)");
-      setTimeout(() => location.reload(), 1000);
+      setTimeout(() => location.reload(), 1000); 
       return;
     }
 
@@ -75,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Función para agregar una canción a la cola
   async function addSong(songId) {
     try {
       console.log(`Intentando agregar la canción con ID ${songId} a la cola.`);
@@ -91,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
         if (result.status === "ok") {
           alert("Canción agregada a la cola.");
-          setTimeout(() => location.reload(), 3000);
+          setTimeout(() => location.reload(), 3000); 
         } else {
           alert("Error al agregar la canción a la cola: " + (result.error || "Desconocido"));
         }
@@ -104,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
   form.addEventListener("submit", event => {
     event.preventDefault();
     const query = songInput.value.trim();
@@ -112,5 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+ 
   loadCurrentTrack();
 });
