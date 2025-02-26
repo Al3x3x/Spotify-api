@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const trackInfo = document.querySelector("#track-info");
   var reproduciendo = false;
 
-  const API_BASE_URL = "https://al3x3.online/spotify";
+  const API_BASE_URL = "https://spotify-api-csb8.onrender.com/spotify;
 
   // Función para mostrar la canción actual
   async function loadCurrentTrack() {
