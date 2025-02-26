@@ -4,23 +4,413 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recomiéndame una canción</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
   <style>
+    :root {
+      --primary-green: #2ecc71;
+      --secondary-green: #27ae60;
+      --dark-green: #1e8449;
+      --light-green: #a9dfbf;
+      --gradient-green: linear-gradient(135deg, #2ecc71, #1abc9c);
+      --gradient-dark: linear-gradient(135deg, #27ae60, #16a085);
+      --white: #ffffff;
+      --light-gray: #f5f5f5;
+      --medium-gray: #e0e0e0;
+      --dark-gray: #333333;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      background: var(--gradient-green);
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .content {
+      width: 100%;
+      max-width: 800px;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: var(--gradient-dark);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo svg {
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+      fill: var(--primary-green);
+    }
+
+    h1 {
+      color: var(--dark-gray);
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      font-size: 2.2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-green);
+      border-radius: 2px;
+    }
+
+    .song-form {
+      display: flex;
+      margin-bottom: 2rem;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    #song-input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      font-size: 1rem;
+      background: var(--light-gray);
+      transition: var(--transition);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    #song-input:focus {
+      outline: none;
+      background: var(--white);
+    }
+
+    .song-form button {
+      background: var(--gradient-green);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .song-form button:hover {
+      background: var(--gradient-dark);
+      transform: translateY(-2px);
+    }
+
+    #track-status {
+      min-height: 50px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background-color: var(--light-gray);
+      text-align: center;
+      font-weight: 500;
+      transition: var(--transition);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #track-info {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 10px;
+      background-color: var(--light-gray);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #track-info img {
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    #track-info img:hover {
+      transform: scale(1.05);
+    }
+
+    #track-info p {
+      font-weight: 500;
+      margin: 0.5rem 0;
+      color: var(--dark-green);
+    }
+
     #progress-bar-container {
       width: 100%;
-      background-color: #eee;
-      height: 20px;
-      margin-top: 10px;
+      background-color: var(--medium-gray);
+      height: 10px;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
     }
+
     #progress-bar {
       height: 100%;
-      background-color: #76c7c0;
+      background: var(--gradient-green);
       width: 0%;
+      border-radius: 5px;
+      transition: width 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
+
+    #progress-bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Estilo para el elemento progress nativo */
+    #track-info progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      appearance: none;
+      border: none;
+    }
+
+    #track-info progress::-webkit-progress-bar {
+      background-color: var(--medium-gray);
+      border-radius: 5px;
+    }
+
+    #track-info progress::-webkit-progress-value {
+      background: var(--gradient-green);
+      border-radius: 5px;
+      position: relative;
+      transition: width 0.3s ease;
+    }
+
+    #track-info progress::-moz-progress-bar {
+      background: var(--gradient-green);
+      border-radius: 5px;
+    }
+
+    #search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .song {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background-color: var(--white);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+      animation: slideIn 0.5s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .song:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
     .song img {
-      width: 50px;
-      height: 50px; 
-      vertical-align: middle;
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 1rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .song p {
+      flex: 1;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .song button {
+      background: var(--gradient-green);
+      color: var(--white);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .song button:hover {
+      background: var(--gradient-dark);
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+      background: var(--dark-gray);
+      color: var(--white);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Scrollbar styling */
+    #search-results::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #search-results::-webkit-scrollbar-track {
+      background: var(--light-gray);
+      border-radius: 4px;
+    }
+
+    #search-results::-webkit-scrollbar-thumb {
+      background: var(--primary-green);
+      border-radius: 4px;
+    }
+
+    #search-results::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-green);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .content {
+        padding: 1.5rem;
+      }
+
+      .song-form {
+        flex-direction: column;
+        border-radius: 10px;
+      }
+
+      #song-input {
+        border-radius: 10px 10px 0 0;
+        padding: 1rem;
+      }
+
+      .song-form button {
+        border-radius: 0 0 10px 10px;
+        padding: 0.8rem;
+      }
+
+      .song {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .song img {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+
+      .song p {
+        margin-bottom: 1rem;
+      }
     }
   </style>
 </head>
@@ -28,23 +418,34 @@
   <div class="container">
     <div class="content-wrapper">
       <div class="content">
-        <h1>Recomiéndame una canción</h1>
+        <div class="logo">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+          </svg>
+          <h1>Recomiéndame una canción</h1>
+        </div>
+        
         <form class="song-form">
           <input type="text" id="song-input" placeholder="Escribe el nombre de una canción" />
           <button type="submit">Agregar</button>
         </form>
+        
         <div id="track-status"></div>
+        
         <div id="track-info">
-       
+          <!-- El contenido se generará dinámicamente con JavaScript -->
           <div id="progress-bar-container">
             <div id="progress-bar"></div>
           </div>
         </div>
-        <div id="search-results"></div>
+        
+        <div id="search-results">
+          <!-- Los resultados se generarán dinámicamente con JavaScript -->
+        </div>
       </div>
     </div>
     <footer>
-      <p>Todos los derechos reservados Alexis Castañeda</p>
+      <p>Todos los derechos reservados &copy; Alexis Castañeda</p>
     </footer>
   </div>
   <script src="script.js"></script>
