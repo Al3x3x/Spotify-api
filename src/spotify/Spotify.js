@@ -110,9 +110,6 @@ class Spotify {
         this.queued[fecha] = [];
       }
 
-      if (this.queued[fecha].includes(ip)) {
-        return { error: "You can only recommend 1 song per day." };
-      }
 
       const response = await axios.post(`${this.API_URL}/me/player/queue`, null, {
         params: {
