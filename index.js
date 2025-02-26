@@ -4,8 +4,9 @@ const path = require("path");
 require("dotenv").config({
   path: path.resolve(__dirname, "secrets.env"),
 });
-const app = express().use(cors()).use(express.json()); 
-const port = process.env.PORT || 20202; 
+
+const app = express().use(cors()).use(express.json());
+const port = process.env.PORT || 20202;
 
 app.use(cors({ origin: "*" }));
 
@@ -15,12 +16,13 @@ app.get("/", (req, res) => {
     rutas: [
       {
         url: "/spotify",
-        info: "Información sobre mi Spotify.",
+        info: "Información sobre mi Spotify."
+      }
     ],
   });
 });
 
-//Rutas para spotify
+// Rutas para spotify
 app.use("/spotify", require("./src/spotify"));
 
 app.listen(port, () => {
